@@ -9,6 +9,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Pong")
 FPS = 60
 MAIN_FONT = pygame.font.SysFont("arial", 70)
+WINNING_SCORE = 1
 # creation of MAIN LOOP or EVENT LOOP of the program wich displays the window and then draws something on it.
 
 # creation of draw() fuction. this is responsible for putting everything on the screen. note that it is being defined on the global scope
@@ -25,18 +26,14 @@ class Paddle:
     def __init__(self, x, y, width, height):
         # self.original_x and self.original_y are going to be assigned the value of the original x and y values and store them in their variable names: self.original_x and _y
         # self.original_x and _y do not change when we change the value of self.x and self.y.
-        self.x = self.original_x = x
-        self.y = self.original_y = y
+        self.x = x
+        self.y = y
         self.width = width
         self.height = height
 
     # draw function of the Paddle class. When we draw a rectangle (.rect) the input needed is the window we are drawing on, a color and then the coordinates for the rectangle.
     def draw(self, win):
         pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
-
-    def reset(self):
-        self.x = self.original_x
-        self.y = self.original_y
 
 
 class Ball:
@@ -48,8 +45,8 @@ class Ball:
     # self.original_x and self.original_y are going to be assigned the value of the original x and y values and store them in their variable names: self.original_x and _y
     # self.original_x and _y do not change when we change the value of self.x and self.y.
     def __init__(self, x, y, radius):
-        self.x = self.original_x = x
-        self.y = self.original_y = y
+        self.x = x
+        self.y = y
         self.radius = radius
         self.x_vel = self.MAX_VEL
         self.y_vel = 0
@@ -60,12 +57,6 @@ class Ball:
     def move(self):
         self.x += self.x_vel
         self.y += self.y_vel
-
-    def reset(self):
-        self.x = self.original_x
-        self.y = self.original_y
-        self.y_vel = 0
-        self.x_vel *= -1
 
 
 def handle_collision(ball, right_paddle, left_paddle):
@@ -144,8 +135,6 @@ def draw(win, paddles, ball, left_score, right_score):
 def main():
     clock = pygame.time.Clock()
     run = True
-    
-    WINNING_SCORE = 10
 
     player_vel = 6
 
@@ -193,15 +182,13 @@ def main():
             won = True
             win_text = "Right Player Won!"
         if won:
-            text = POINT_FONT.render(win_text, 1, WHITE)
+            WIN.fill(BLACK)
+            text = MAIN_FONT.render(win_text, 1, WHITE)
             WIN.blit(text, (WIDTH//2 - text.get_width()//2, HEIGHT//2 - text.get_height()//2))
             pygame.display.update()
             pygame.time.delay(5000)
-            ball.reset()
-            left_paddle.reset()
-            right_paddle.reset()
-            left_score = 0 
-            right_score = 0
+            main_menu()
+            
             
 
         for event in pygame.event.get():
@@ -217,9 +204,9 @@ def main_menu():
     while run:
         WIN.fill(BLACK)
         left_title = POINT_FONT.render("L", 1, WHITE)
-        left_instructions = INST_FONT.render("Tab: Up | CapsLock: Down", 1, WHITE)
+        left_instructions = INST_FONT.render("Tab: Up  |  CapsLock: Down", 1, WHITE)
         right_title = POINT_FONT.render("R", 1, WHITE)
-        right_instructions = INST_FONT.render("Backslash: Up | Return: Down", 1, WHITE)
+        right_instructions = INST_FONT.render("Backslash: Up  |  Return: Down", 1, WHITE)
         pong_title = MAIN_FONT.render("PONG", 1, WHITE)
         start_inst = INST_FONT.render("(Press  \'space\'  to start)", 1, WHITE)
 

@@ -16,3 +16,9 @@
 
   - GENERAL (on title screen):
     " space " = start
+
+-GAME RULES-
+  - Point Gain:
+    "When player1 is unable to bounce the ball, player2 will recieve a point. The reverse is also true."
+  - Win Param:
+    "1st to 10 points wins"
