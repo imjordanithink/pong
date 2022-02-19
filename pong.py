@@ -211,18 +211,30 @@ def main():
                 break
     quit()
     
-    
+INST_FONT = pygame.font.SysFont("arial", 15)    
 def main_menu():
     run = True
     while run:
         WIN.fill(BLACK)
-        main_message = MAIN_FONT.render("Click to Start", 1, (255,255,255))
-        WIN.blit(main_message, (WIDTH/2 - main_message.get_width()/2, HEIGHT//2 - 30))
+        left_title = POINT_FONT.render("L", 1, WHITE)
+        left_instructions = INST_FONT.render("Tab: Up | CapsLock: Down", 1, WHITE)
+        right_title = POINT_FONT.render("R", 1, WHITE)
+        right_instructions = INST_FONT.render("Backslash: Up | Return: Down", 1, WHITE)
+        pong_title = MAIN_FONT.render("PONG", 1, WHITE)
+        start_inst = INST_FONT.render("(Press  \'space\'  to start)", 1, WHITE)
+
+        WIN.blit(pong_title, (WIDTH/2 - pong_title.get_width()/2, 80))
+        WIN.blit(start_inst, (WIDTH//2 - start_inst.get_width()/2, pong_title.get_height() * 2))
+        WIN.blit(left_title, (WIDTH//4 - left_title.get_width()/2, HEIGHT // 2 - 50))
+        WIN.blit(left_instructions, (WIDTH//4 - left_instructions.get_width()/2, HEIGHT // 2))
+        WIN.blit(right_title, (WIDTH * (3/4) - right_title.get_width()/2, HEIGHT // 2 - 50))
+        WIN.blit(right_instructions, (WIDTH * (3/4) - right_instructions.get_width()/2, HEIGHT // 2))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
                 main()
     pygame.quit()
 
